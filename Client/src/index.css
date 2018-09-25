@@ -1,0 +1,15 @@
+/*CreateArticle222px*/
+.creArti_img {
+  margin: auto;
+  display: block;
+}
+/*SubArticle*/
+.SubArti{
+  text-align: center
+}
+/*Login*/
+@media (max-width: 321px){
+  .lg_error {
+    font-size: 10px
+  }
+}

@@ -10,7 +10,6 @@ import config from '../../config'
 
 import FroalaEditor from 'react-froala-wysiwyg'
 
-
 class CreateArticle extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -105,12 +104,12 @@ class CreateArticle extends Component {
   // Config images Rich Text
   handlerNameImgRT(respon){
     let path = config.api.local + respon
+    // console.log(respon)
     this.arrImgup.push(path)
   }
   render() {
     let listCategorys = this.state.Categorys
-    // console.log(listCategorys)
-    // console.log(this.state.content)
+    let nodeCurrent;
     let self = this
     return (
       <Fragment>
@@ -173,12 +172,27 @@ class CreateArticle extends Component {
                           'froalaEditor.image.uploaded': (e, editor, response) => {
                             self.handlerNameImgRT(response)
                             let pathImg = self.arrImgup.pop()
-                            let nodeCurrent =editor.image.get() // node image
-                            console.log(nodeCurrent)
-                            editor.image.insert(pathImg, true, {'id': pathImg}, nodeCurrent, response)
+                            let stringPath =config.api.local+'/uploaded/images/'
+                            let lengthPath = stringPath.length
+                            let id = pathImg.slice(lengthPath, pathImg.length)
+                            nodeCurrent =editor.image.get() // node image
+                            // console.log('id Co noi: ' + id)
+                            editor.image.align('left')
+                            editor.image.insert(pathImg, true, {'id': id}, nodeCurrent, response)
+                            return false // return false for end Event
                           },
-                          'froalaEditor.image.loaded': (e, editor, $img) => {
-                            // console.log($img)
+                          'froalaEditor.image.removed': (e, editor, $img) => {
+                            let idParam =  $img[0].dataset.id
+                            axios.post(config.api.local + '/api/Article/remove/' + idParam).then(
+                              response => {
+                                console.log(response)
+                                /**
+                                 * Doing COntent Report
+                                 */
+                              }
+                            ).catch(function (error) {
+                              console.log(error)
+                            })
                           }
                         }
                       }}

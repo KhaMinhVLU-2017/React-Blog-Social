@@ -87,6 +87,19 @@ router.post('/Article/uploadImg', (req, res) => {
     res.send(link)
   })
 })
+// Remove Image from Rich text
+router.post('/Article/remove/:id', (req, res) => {
+  let idIMG = req.params.id
+  console.log(idIMG)
+  let pathOld = __dirname+ '/public/uploaded/images/'+ idIMG
+  fs.unlink(pathOld, (err) => {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: 'Delete complete Image'
+    })
+  })
+})
 /**
  * Categorys
  */

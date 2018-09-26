@@ -61,11 +61,5 @@ module.exports = {
     let idUser = article.author
     article.author = ListUser[idUser].username // Change ID is name
     return article
-  },
-  /**
-   * Uplaod Image From Rich text
-   */
-  uploadImgRT: () => {
-    
   }
 }

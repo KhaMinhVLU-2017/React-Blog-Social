@@ -13,6 +13,7 @@ import SingleArticle from './components/SingleArticle'
 import Signup from './components/Signup'
 import createHistory from 'history/createBrowserHistory'
 import ErrorMeo from './components/Error'
+import ProfileUser from './components/profile'
 import { CookiesProvider, withCookies } from 'react-cookie'
 // Rich Editor wyswyg
 import 'froala-editor/js/froala_editor.pkgd.min.js'
@@ -91,6 +92,7 @@ class RouteApp extends Component {
                   history.push('/articles/create', {initialState})
                   return cookies.get('id_user') ? <CreateArticle /> : <Login />
                 }} />
+                <Route path='/profile' component={ProfileUser} />
                 <Route component={ErrorMeo} />
               </Switch>
               <Footer />

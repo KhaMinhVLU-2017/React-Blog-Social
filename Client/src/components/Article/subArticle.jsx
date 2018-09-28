@@ -8,7 +8,7 @@ const SubArticle = (props) => {
       <article className='mt-90 SubArti' >
         <header className='text-center mb-40'>
           <h3>
-            <a href='blog-single.html'>{props.title}</a>
+            <a href={'/article/' + props.idPost}>{props.title}</a>
           </h3>
           <div className='link-color-default fs-12'>
             <a href='note'>{props.author} </a>,&ensp; <time>{props.date}</time>

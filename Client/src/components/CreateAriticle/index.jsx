@@ -165,6 +165,8 @@ class CreateArticle extends Component {
                  
                         // Allow to upload PNG and JPG.
                         imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+                        toolbarStickyOffset: '60px', // sticky scroll
+                        // toolbarBottom: true,
                         events: {
                           'froalaEditor.image.beforeUpload': (e, editor, images) => {
                             console.log('Before ' + images)

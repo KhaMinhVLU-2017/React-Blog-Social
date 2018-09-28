@@ -185,10 +185,14 @@ class CreateArticle extends Component {
                             let idParam =  $img[0].dataset.id
                             axios.post(config.api.local + '/api/Article/remove/' + idParam).then(
                               response => {
-                                console.log(response)
                                 /**
                                  * Doing COntent Report
                                  */
+                                if(response.data.status ===200){
+                                  console.log(response.data.message)
+                                }else {
+                                  console.log(response)
+                                }
                               }
                             ).catch(function (error) {
                               console.log(error)

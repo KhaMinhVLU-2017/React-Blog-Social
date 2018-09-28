@@ -6,12 +6,24 @@ import { withCookies } from 'react-cookie'
  * Redux
  */
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 import * as todoAction from '../../actions/index'
 
 class Navbar extends Component {
   reloadPage () {
-    window.location.reload()
+    // window.location.reload()
+    let body = document.body.classList.contains('topbar-reveal')
+    // Check Class for remove tag is beautiful Front-end
+    if (body) {
+      document.body.classList.remove('topbar-reveal')
+      document.querySelector('.topbar-backdrop').remove()
+    }
+  }
+  destroyCookie (cookies) {
+    cookies.remove('username')
+    cookies.remove('id_user')
+    cookies.remove('email')
+    cookies.remove('__Token')
   }
   render () {
     // console.log(this.props.username)
@@ -33,29 +45,19 @@ class Navbar extends Component {
               <li onClick={this.reloadPage.bind(this)} className='nav-item'>
                 <Link className='nav-link' to='/articles/create'>Write new article</Link>
               </li>
-              <li onClick={this.reloadPage.bind(this)} className='nav-item'>
-                <a className='nav-link' href='note'>Hey Garry!
-                <i className='fa fa-caret-down' />
-                </a>
-                <div className='nav-submenu'>
-                  <Link className='nav-link' to='/'>My articles</Link>
-                </div>
-              </li>
               {this.props.username ?
                 <li className='nav-item'>
-                  <Link className='nav-link' to='/Login'>{this.props.username}
+                  <Link className='nav-link' to='/profile'>{this.props.username}
                     <i className='fa fa-caret-down' />
                   </Link>
                   <div className='nav-submenu'>
-                    <Link onClick={() => {
+                    <Link className='nav-link' to='/'>My articles</Link>
+                    <Link onClick={async () => {
                       this.props.actions.logoutA()
                       let { cookies } = this.props
                       // console.log(cookies)
                       // store.dispatch(todoAction.logoutA())
-                      cookies.remove('username')
-                      cookies.remove('id_user')
-                      cookies.remove('email')
-                      cookies.remove('__Token')
+                      await this.destroyCookie(cookies)
                       this.reloadPage()
                     }
                     } className='nav-link' to='/Logout'>Logout</Link>
@@ -78,12 +80,12 @@ class Navbar extends Component {
   }
 }
 
-function mapStatetoProps (state) {
+function mapStatetoProps(state) {
   return {
     username: state.username
   }
 }
-function mapDispatch (dispatch) {
+function mapDispatch(dispatch) {
   return {
     actions: bindActionCreators(todoAction, dispatch)
   }

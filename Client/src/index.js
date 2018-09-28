@@ -88,7 +88,7 @@ class RouteApp extends Component {
                 <Route path='/articles/create' render={() => {
                   let { cookies } = this.props
                   let history = createHistory()
-                  history.push('/articles/create', { some: 'state' })
+                  history.push('/articles/create', {initialState})
                   return cookies.get('id_user') ? <CreateArticle /> : <Login />
                 }} />
                 <Route component={ErrorMeo} />

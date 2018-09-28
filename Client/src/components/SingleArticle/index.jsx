@@ -80,6 +80,6 @@ class SingleArticle extends React.Component {
   }
 }
 
-const Content = (props) => <div className='content' dangerouslySetInnerHTML={{__html: props.content}} />
+const Content = (props) => <div className='container' dangerouslySetInnerHTML={{__html: props.content}} />
 
 export default SingleArticle

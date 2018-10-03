@@ -8,6 +8,7 @@ class Article extends Component {
   constructor (props) {
     super(props)
     this.state = { listArt: [], load: false }
+    this.errorMeo = null
     this.getListArt = this.getListArt.bind(this)
   }
   componentDidMount () {
@@ -18,10 +19,12 @@ class Article extends Component {
     this.setState({load: true})
     axios.get(config.api.local + '/api/Articles')
       .then(function (response) {
+        clearTimeout(self.errorMeo)
         self.setState({listArt: response.data.listArti, load: false})
       })
       .catch(function (error) {
         console.log(error)
+        self.errorMeo = setTimeout(() => self.getListArt(), 1500)
       })
   }
   render () {

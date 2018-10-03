@@ -17,7 +17,7 @@ module.exports = {
       return {status: 404, message: 'Password is wrong'}
     }
     // Code Token and Return Client
-    let token = jwt.sign({id: user.id, username: user.username, email: user.email}, 'PesiSecretKey', {expiresIn: '1h'})
+    let token = jwt.sign({id: user.id, username: user.username, email: user.email, avatarLink: user.avatar}, 'PesiSecretKey', {expiresIn: '1h'})
     return {status: 200, token, message: 'Get Token Complete'}
   },
   verifyToken: (req, res, next) => {

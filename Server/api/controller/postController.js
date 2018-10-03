@@ -60,6 +60,8 @@ module.exports = {
     }// Save Object with key : value || Key is Id_User
     let idUser = article.author
     article.author = ListUser[idUser].username // Change ID is name
-    return article
+    let avatar = ListUser[idUser].avatar
+    // console.log(avatar)
+    return {article, avatar}
   }
 }

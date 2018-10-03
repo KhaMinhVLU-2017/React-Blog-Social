@@ -2,34 +2,40 @@ import React, { Fragment } from 'react'
 
 import axios from 'axios'
 import config from '../../config'
-
+import {Input, Label, FormGroup} from 'reactstrap'
+import {withCookies} from 'react-cookie'
 
 class SingleArticle extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       idPost: null,
-      detailContent: {}
+      detailContent: {},
+      avatar: null,
+      avatarSeen: null,
     }
   }
-  componentWillMount () {
+  componentWillMount() {
     this.setState({ idPost: this.props.match.params.idPost })
   }
-  componentDidMount () {
+  componentDidMount() {
     // console.log(this.state.idPost)
     let self = this
+    let {cookies} = this.props
+    let avaComment = cookies.get('avatarLink')
     axios.get(config.api.local + '/api/Article/' + this.state.idPost)
       .then(function (response) {
         if (response.data.status === 200) {
-          let content = response.data.detailArt
-          self.setState({ detailContent: content })
+          let content = response.data.detailArt.article
+          let avatarLink = response.data.detailArt.avatar
+          self.setState({ detailContent: content, avatar: avatarLink, avatarSeen: avaComment})
         }
       })
       .catch(function (error) {
         console.log(error)
       })
   }
-  render () {
+  render() {
     return (
       <Fragment>
         <header className='header header-inverse h-fullscreen pb-80' style={{ backgroundImage: `url(${config.api.local}${this.state.detailContent.image})` }} data-overlay={8}>
@@ -62,14 +68,20 @@ class SingleArticle extends React.Component {
         <main className='main-content'>
 
           <div className='section' id='section-content'>
-              <Content content={this.state.detailContent.content} />
+            <Content content={this.state.detailContent.content} />
           </div>
 
           <div className='section bt-1 bg-grey'>
             <div className='container'>
               <div className='row text-center'>
                 <div className='text-center p-5'>
-                  COMMENTS HERE.
+                  <FormGroup>
+                    <Label for="exampleText"> COMMENTS HERE.</Label>
+                    <p>
+                    <img className='rounded-circle w-40' src= {this.state.avatarSeen} alt='Avatar Comment'/>
+                    <Input type="textarea" name="text" id="exampleText" />
+                    </p>
+                  </FormGroup>
                 </div>
               </div>
             </div>
@@ -80,6 +92,6 @@ class SingleArticle extends React.Component {
   }
 }
 
-const Content = (props) => <div className='container' dangerouslySetInnerHTML={{__html: props.content}} />
+const Content = (props) => <div className='container' dangerouslySetInnerHTML={{ __html: props.content }} />
 
-export default SingleArticle
+export default withCookies(SingleArticle)

@@ -1,9 +1,10 @@
-export function loginA (iduser, username, email, __Token) {
+export function loginA (iduser, username, email, avatarLink, __Token) {
   return {
     type: 'LOGGIN',
     id_user: iduser,
     username,
     email,
+    avatarLink,
     __Token
   }
 }

@@ -7,7 +7,7 @@ import { Input, Label, FormGroup, Col } from 'reactstrap'
 import { withCookies } from 'react-cookie'
 
 class SingleArticle extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       idPost: null,
@@ -17,10 +17,10 @@ class SingleArticle extends React.Component {
       usernameSeen: null
     }
   }
-  componentWillMount() {
+  componentWillMount () {
     this.setState({ idPost: this.props.match.params.idPost })
   }
-  componentDidMount() {
+  componentDidMount () {
     // console.log(this.state.idPost)
     let self = this
     let { cookies } = this.props
@@ -38,7 +38,7 @@ class SingleArticle extends React.Component {
         console.log(error)
       })
   }
-  render() {
+  render () {
     return (
       <Fragment>
         <header className='header header-inverse h-fullscreen pb-80' style={{ backgroundImage: `url(${config.api.local}${this.state.detailContent.image})` }} data-overlay={8}>
@@ -77,7 +77,7 @@ class SingleArticle extends React.Component {
             <div className='container'>
               <div className='row text-center'>
                 <div className='text-center p-5 col-md-12'>
-                  <FormGroup row>
+                  {this.state.usernameSeen && <FormGroup row>
                     <h3>
                       <Label for='exampleText'> COMMENTS HERE.</Label>
                     </h3>
@@ -91,6 +91,7 @@ class SingleArticle extends React.Component {
                       </Col>
                     </Col>
                   </FormGroup>
+                  }
                 </div>
               </div>
             </div>

@@ -79,7 +79,7 @@ class Login extends Component {
     })
   }
   responseGoogle(response) {
-    console.log(response)
+    // console.log(response)
     let email = response.profileObj.email
     let id_google = response.profileObj.googleId
     this.loginDb(email, id_google)

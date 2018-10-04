@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Badge } from 'reactstrap'
 import axios from 'axios'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import loadedImg from '../../images/load3.gif'
 import createHistory from 'history/createBrowserHistory'
 /**
@@ -14,8 +14,8 @@ import { withCookies, Cookies } from 'react-cookie'
  * Redux
  */
 import * as todoAction from '../../actions/index'
-import { bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import config from '../../config'
 // login with google
@@ -28,46 +28,23 @@ class Login extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { cookies } = props // get cookie from props
-    this.state = {pesiCookie: cookies.get('myCookie'), name: '', email: '', error: '', loaded: false, redirectTo: false}
+    this.state = { pesiCookie: cookies.get('myCookie'), name: '', email: '', error: '', loaded: false, redirectTo: false }
     this.onHanderChange = this.onHanderChange.bind(this)
     this.formSubmit = this.formSubmit.bind(this)
     this.responseGoogle = this.responseGoogle.bind(this)
   }
-  onHanderChange (e) {
+  onHanderChange(e) {
     let value = e.target.value
     let name = e.target.name
     this.setState({ [name]: value })
     // console.log(name + ' ' + value)
   }
-  // Action Login With Google Client Side
-  responseGoogle (response) {
-    console.log(response)
-    let username = response.profileObj.name
-    let email = response.profileObj.email
-    let avatarLink = response.profileObj.imageUrl
-    let id_google = response.profileObj.googleId
-    let token = response.tokenId
-    const { cookies } = this.props
-    cookies.set('id_user', id_google)
-    cookies.set('username', username)
-    cookies.set('email', email)
-    cookies.set('avatarLink', avatarLink)
-    cookies.set('__Token', token)
-    this.props.actions.loginA(id_google,username,email,avatarLink,token)
-    this.setState({redirectTo: true})
-    // console.log(response.profileObj)
-    // console.log(response.tokenId)
-  }
-  formSubmit (e) {
-    e.preventDefault()
-    let history = createHistory()
-    this.setState({loaded: true})
-    let email = this.state.email
-    let pass = this.state.pass
+  loginDb (email, pass) {
     let self = this
+    let history = createHistory()
     axios.post(config.api.local + '/api/login', {
       email, pass
     }).then((reponse) => {
@@ -79,7 +56,7 @@ class Login extends Component {
       if (reponse.data.token.status === 200) {
         // Luu vao session
         const { cookies } = self.props
-        jwt.verify(reponse.data.token.token, 'PesiSecretKey', function(err, decoded) {
+        jwt.verify(reponse.data.token.token, 'PesiSecretKey', function (err, decoded) {
           let email = decoded.email
           let username = decoded.username
           let id_user = decoded.id
@@ -92,16 +69,29 @@ class Login extends Component {
           cookies.set('__Token', token)
           let location = history.location
           // console.log(location)
-          self.props.actions.loginA(id_user,username,email,avatar,token)
-          location.pathname.toLowerCase() === '/login' ? self.setState({redirectTo: true}): history.goBack()// Return Before Page
+          self.props.actions.loginA(id_user, username, email, avatar, token)
+          location.pathname.toLowerCase() === '/login' ? self.setState({ redirectTo: true }) : history.goBack()// Return Before Page
         });
-       
+
       }
     }).catch(function (error) {
       console.log(error)
     })
   }
-  render () {
+  responseGoogle(response) {
+    console.log(response)
+    let email = response.profileObj.email
+    let id_google = response.profileObj.googleId
+    this.loginDb(email, id_google)
+  }
+  formSubmit(e) {
+    e.preventDefault()
+    this.setState({ loaded: true })
+    let email = this.state.email
+    let pass = this.state.pass
+    this.loginDb(email, pass)
+  }
+  render() {
     if (this.state.redirectTo) {
       return <Redirect to='/' />
     }
@@ -133,6 +123,7 @@ class Login extends Component {
                 clientId='705238470430-ls3aq3nep8p528mhrrn33omjbbcr1t3q.apps.googleusercontent.com'
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
+                buttonText='Login with Google'
                 className='btn btn-bold btn-block btn-danger'
               />
         </div>
@@ -142,10 +133,9 @@ class Login extends Component {
   }
 }
 
-
-function mapDispatchToProps (dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(todoAction,dispatch)
+    actions: bindActionCreators(todoAction, dispatch)
   }
 }
-export default withCookies(connect(null,mapDispatchToProps)(Login))
+export default withCookies(connect(null, mapDispatchToProps)(Login))

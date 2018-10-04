@@ -10,8 +10,8 @@ const router = require('./routes') // Get Router from file router
 // const fs = require('fs')
 
 // const options = {
-//   key: fs.readFileSync('key.pem'),
-//   cert: fs.readFileSync('cert.pem')
+//   key: fs.readFileSync('meo-key.pem'),
+//   cert: fs.readFileSync('key-cert.pem')
 // }
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')

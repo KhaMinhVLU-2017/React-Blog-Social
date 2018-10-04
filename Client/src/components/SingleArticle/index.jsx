@@ -7,36 +7,38 @@ import { Input, Label, FormGroup, Col } from 'reactstrap'
 import { withCookies } from 'react-cookie'
 
 class SingleArticle extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       idPost: null,
       detailContent: {},
       avatar: null,
-      avatarSeen: null
+      avatarSeen: null,
+      usernameSeen: null
     }
   }
-  componentWillMount () {
+  componentWillMount() {
     this.setState({ idPost: this.props.match.params.idPost })
   }
-  componentDidMount () {
+  componentDidMount() {
     // console.log(this.state.idPost)
     let self = this
     let { cookies } = this.props
     let avaComment = cookies.get('avatarLink')
+    let usernameSeen = cookies.get('username')
     axios.get(config.api.local + '/api/Article/' + this.state.idPost)
       .then(function (response) {
         if (response.data.status === 200) {
           let content = response.data.detailArt.article
           let avatarLink = response.data.detailArt.avatar
-          self.setState({ detailContent: content, avatar: avatarLink, avatarSeen: avaComment })
+          self.setState({ detailContent: content, avatar: avatarLink, avatarSeen: avaComment, usernameSeen })
         }
       })
       .catch(function (error) {
         console.log(error)
       })
   }
-  render () {
+  render() {
     return (
       <Fragment>
         <header className='header header-inverse h-fullscreen pb-80' style={{ backgroundImage: `url(${config.api.local}${this.state.detailContent.image})` }} data-overlay={8}>
@@ -80,7 +82,10 @@ class SingleArticle extends React.Component {
                       <Label for='exampleText'> COMMENTS HERE.</Label>
                     </h3>
                     <Col md={12}>
-                      <img className='rounded-circle w-40 float-left' src={this.state.avatarSeen} alt='Avatar Comment' />
+                      <p className='float-left'>
+                        <img className='rounded-circle w-40 float-left' src={this.state.avatarSeen} alt='Avatar Comment' />
+                        <span className='mt-20'><strong>{this.state.usernameSeen}</strong></span>
+                      </p>
                       <Col md={12}>
                         <Input type='textarea' name='text' id='exampleText' />
                       </Col>

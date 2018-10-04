@@ -124,8 +124,8 @@ router.post('/login', async (req, res) => {
   res.json({ token })
 })
 router.post('/signup', async (req, res) => {
-  let {username, email, pass, passconfirm} = req.body
-  let sign = await loginCon.signup(username, email, pass, passconfirm)
+  let {username, email, pass, passconfirm, avatar} = req.body
+  let sign = await loginCon.signup(username, email, pass, passconfirm, avatar)
   console.log(sign)
   res.json(sign)
 })

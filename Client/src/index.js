@@ -90,7 +90,7 @@ class RouteApp extends Component {
                     // history.push('/Login')
                     return <Signup />
                   }} />
-                  <Route path='/article/:idPost' component={<SingleArticle />} />
+                  <Route path='/article/:idPost' component={SingleArticle} />
                   <Route path='/articles/create' render={() => {
                     let { cookies } = this.props
                     let history = createHistory()

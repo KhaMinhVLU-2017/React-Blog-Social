@@ -31,7 +31,7 @@ module.exports = {
       res.sendStatus(403)
     }
   },
-  signup: async (username, email, pass, passconfirm) => {
+  signup: async (username, email, pass, passconfirm, avatar) => {
     let emails = email.toLowerCase().trim()// Covert Lower and Split Space First and Last
     if (emails.split('@').length <= 1) { // Verify Email
       return {status: 404, message: 'Email not definded'}
@@ -47,6 +47,7 @@ module.exports = {
     user.username = username
     user.email = email
     user.password = pass
+    user.avatar = avatar
     user.save()
     console.log('SignUp Complete: ' + user)
     return {status: 200, message: 'Signup Complete'}

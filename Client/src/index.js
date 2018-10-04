@@ -27,8 +27,13 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducer from './reducers/index'
 /**
+ * Https
+ */
+import HttpsRedirect from 'react-https-redirect'
+/**
  * Font-awesome
  */
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 library.add(faStroopwafel)
@@ -63,38 +68,41 @@ class RouteApp extends Component {
       <CookiesProvider >
         <BrowserRouter >
           <Provider store={store}>
-            <Fragment>
-              <Navbar />
-              <Switch >
-                <Route path='/' exact render={() => {
-                  // let history = createHistory()
-                  // history.push('/')
-                  return <Welcome />
-                }} />
-                <Route path='/Login' render={() => {
-                  // let history = createHistory()
-                  // history.push('/login')
-                  return <Login />
-                }} />
-                <Route path='/Logout' render={() => {
-                  return <Redirect to='/' />
-                }} />
-                <Route path='/Signup' render={() => {
-                  // let history = createHistory()
-                  // history.push('/Login')
-                  return <Signup />
-                }} />
-                <Route path='/article/:idPost' component={SingleArticle} />
-                <Route path='/articles/create' render={() => {
-                  let { cookies } = this.props
-                  let history = createHistory()
-                  history.push('/articles/create', {initialState})
-                  return cookies.get('id_user') ? <CreateArticle /> : <Login />
-                }} />
-                <Route component={ErrorMeo} />
-              </Switch>
-              <Footer />
-            </Fragment>
+            <HttpsRedirect>
+              <Fragment>
+                <Navbar />
+                <Switch >
+                  <Route path='/' exact render={() => {
+                    // let history = createHistory()
+                    // history.push('/')
+                    return <Welcome />
+                  }} />
+                  <Route path='/Login' render={() => {
+                    // let history = createHistory()
+                    // history.push('/login')
+                    return <Login />
+                  }} />
+                  <Route path='/Logout' render={() => {
+                    return <Redirect to='/' />
+                  }} />
+                  <Route path='/Signup' render={() => {
+                    // let history = createHistory()
+                    // history.push('/Login')
+                    return <Signup />
+                  }} />
+                  <Route path='/article/:idPost' component={<SingleArticle />} />
+                  <Route path='/articles/create' render={() => {
+                    let { cookies } = this.props
+                    let history = createHistory()
+                    history.push('/articles/create', { initialState })
+                    return cookies.get('id_user') ? <CreateArticle /> : <Login />
+                  }} />
+                  {/* <Route path='/profile' component={ProfileUser} /> */}
+                  <Route component={ErrorMeo} />
+                </Switch>
+                <Footer />
+              </Fragment>
+            </HttpsRedirect>
           </Provider>
         </BrowserRouter>
       </CookiesProvider>
@@ -102,6 +110,6 @@ class RouteApp extends Component {
   }
 }
 
-let RouteAppCookie = withCookies(RouteApp)
+const RouteAppCookie = withCookies(RouteApp)
 ReactDOM.render(<RouteAppCookie />, document.getElementById('root'))
 registerServiceWorker()

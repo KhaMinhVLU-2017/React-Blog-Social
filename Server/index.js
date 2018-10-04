@@ -3,6 +3,16 @@ const express = require('express')
 const app = express()
 var cors = require('cors')
 const router = require('./routes') // Get Router from file router
+// /**
+//  * HTTPS
+//  */
+// const https = require('https')
+// const fs = require('fs')
+
+// const options = {
+//   key: fs.readFileSync('key.pem'),
+//   cert: fs.readFileSync('cert.pem')
+// }
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
@@ -22,4 +32,5 @@ db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function () {
   console.log('Connect Mongodb Complete')
 })
+
 app.listen(4000, () => console.log('Server listening on port 4000!'))

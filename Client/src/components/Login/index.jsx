@@ -18,6 +18,9 @@ import { bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import config from '../../config'
+// login with google
+import GoogleLogin from 'react-google-login'
+
 // jwt
 var jwt = require('jsonwebtoken')
 
@@ -31,12 +34,32 @@ class Login extends Component {
     this.state = {pesiCookie: cookies.get('myCookie'), name: '', email: '', error: '', loaded: false, redirectTo: false}
     this.onHanderChange = this.onHanderChange.bind(this)
     this.formSubmit = this.formSubmit.bind(this)
+    this.responseGoogle = this.responseGoogle.bind(this)
   }
   onHanderChange (e) {
     let value = e.target.value
     let name = e.target.name
     this.setState({ [name]: value })
     // console.log(name + ' ' + value)
+  }
+  // Action Login With Google Client Side
+  responseGoogle (response) {
+    console.log(response)
+    let username = response.profileObj.name
+    let email = response.profileObj.email
+    let avatarLink = response.profileObj.imageUrl
+    let id_google = response.profileObj.googleId
+    let token = response.tokenId
+    const { cookies } = this.props
+    cookies.set('id_user', id_google)
+    cookies.set('username', username)
+    cookies.set('email', email)
+    cookies.set('avatarLink', avatarLink)
+    cookies.set('__Token', token)
+    this.props.actions.loginA(id_google,username,email,avatarLink,token)
+    this.setState({redirectTo: true})
+    // console.log(response.profileObj)
+    // console.log(response.tokenId)
   }
   formSubmit (e) {
     e.preventDefault()
@@ -60,14 +83,16 @@ class Login extends Component {
           let email = decoded.email
           let username = decoded.username
           let id_user = decoded.id
+          let avatar = decoded.avatarLink
           let token = reponse.data.token.token
           cookies.set('id_user', id_user)
           cookies.set('username', username)
           cookies.set('email', email)
+          cookies.set('avatarLink', avatar)
           cookies.set('__Token', token)
           let location = history.location
           // console.log(location)
-          self.props.actions.loginA(id_user,username,email,token)
+          self.props.actions.loginA(id_user,username,email,avatar,token)
           location.pathname.toLowerCase() === '/login' ? self.setState({redirectTo: true}): history.goBack()// Return Before Page
         });
        
@@ -104,6 +129,12 @@ class Login extends Component {
           </form>
           <hr className='w-30' />
           <p className='text-center text-muted fs-13 mt-20'>Don't have an account? <a href='/Signup'>Sign up</a></p>
+          <GoogleLogin
+                clientId='705238470430-ls3aq3nep8p528mhrrn33omjbbcr1t3q.apps.googleusercontent.com'
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                className='btn btn-bold btn-block btn-danger'
+              />
         </div>
         }
       </div>

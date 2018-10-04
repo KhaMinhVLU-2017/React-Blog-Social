@@ -3,24 +3,25 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Badge } from 'reactstrap'
 import loadedImg from '../../images/load3.gif'
-import {Redirect} from 'react-router'
+import { Redirect } from 'react-router'
 import config from '../../config'
 
+
 class Signup extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { error: null, leaded: false, reDirect: false }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
-  onChange (e) {
+  onChange(e) {
     let name = e.target.name
     this.setState({ [name]: e.target.value })
   }
-  onSubmit (e) {
+  onSubmit(e) {
     e.preventDefault()
     let self = this
-    this.setState({leaded: true})
+    this.setState({ leaded: true })
     let email = this.state.email
     let username = this.state.username
     let pass = this.state.pass
@@ -40,7 +41,7 @@ class Signup extends Component {
       console.log(error)
     })
   }
-  render () {
+  render() {
     if (this.state.reDirect) {
       return <Redirect to='/Login' />
     }
@@ -72,6 +73,7 @@ class Signup extends Component {
             <hr className='w-30' />
             <p className='text-center text-muted fs-13 mt-20'>Already have an account?
           <Link to='/login'>Sign in</Link>
+          
             </p>
           </div>
         }
@@ -79,4 +81,7 @@ class Signup extends Component {
     )
   }
 }
+
+
+
 export default Signup

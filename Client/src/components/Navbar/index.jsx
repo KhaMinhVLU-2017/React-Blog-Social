@@ -24,6 +24,7 @@ class Navbar extends Component {
     cookies.remove('id_user')
     cookies.remove('email')
     cookies.remove('__Token')
+    cookies.remove('avatarLink')
   }
   render () {
     // console.log(this.props.username)
@@ -80,12 +81,12 @@ class Navbar extends Component {
   }
 }
 
-function mapStatetoProps(state) {
+function mapStatetoProps (state) {
   return {
     username: state.username
   }
 }
-function mapDispatch(dispatch) {
+function mapDispatch (dispatch) {
   return {
     actions: bindActionCreators(todoAction, dispatch)
   }

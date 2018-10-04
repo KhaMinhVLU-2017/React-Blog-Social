@@ -63,5 +63,9 @@ module.exports = {
     let avatar = ListUser[idUser].avatar
     // console.log(avatar)
     return {article, avatar}
+  },
+  getListUser: async () => {
+    let getListUser = await User.find()
+    return getListUser
   }
 }

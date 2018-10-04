@@ -135,6 +135,9 @@ router.get('/getname/:id', async (req, res) => {
   let name = await loginCon.getName(id)
   res.json(name)
 })
-router.get('/', (req, res) => res.send('Hello World!'))
+router.get('/listuser', async (req, res) => {
+  let listUser = await postController.getListUser()
+  res.json(listUser)
+})
 
 module.exports = router

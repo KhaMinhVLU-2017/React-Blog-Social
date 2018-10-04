@@ -13,6 +13,7 @@ import SingleArticle from './components/SingleArticle'
 import Signup from './components/Signup'
 import createHistory from 'history/createBrowserHistory'
 import ErrorMeo from './components/Error'
+import AdminState from './components/Admin'
 import { CookiesProvider, withCookies } from 'react-cookie'
 // Rich Editor wyswyg
 import 'froala-editor/js/froala_editor.pkgd.min.js'
@@ -46,6 +47,7 @@ let initialState = {}
 let store
 
 class RouteApp extends Component {
+
   componentWillMount () {
     let { cookies } = this.props
     // console.log(cookies.get('__Token'))
@@ -97,7 +99,7 @@ class RouteApp extends Component {
                     history.push('/articles/create', { initialState })
                     return cookies.get('id_user') ? <CreateArticle /> : <Login />
                   }} />
-                  {/* <Route path='/profile' component={ProfileUser} /> */}
+                  <Route path='/Cha/Admin' component={AdminState} />
                   <Route component={ErrorMeo} />
                 </Switch>
                 <Footer />
@@ -111,5 +113,6 @@ class RouteApp extends Component {
 }
 
 const RouteAppCookie = withCookies(RouteApp)
+
 ReactDOM.render(<RouteAppCookie />, document.getElementById('root'))
 registerServiceWorker()

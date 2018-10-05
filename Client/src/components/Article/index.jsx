@@ -16,15 +16,21 @@ class Article extends Component {
     this.getListArt = this.getListArt.bind(this)
   }
   componentDidMount() {
-    this.getListArt()
+    this.getListArt(true)
   }
-  getListArt() {
+  getListArt(check) {
     let self = this
-    this.setState({ load: true })
+    if(check){
+      this.setState({ load: true })
+    }
     axios.get(config.api.local + '/api/Articles')
       .then(function (response) {
         clearTimeout(self.errorMeo)
-        self.setState({ listArt: response.data.listArti, load: false })
+        if(check){
+          self.setState({ listArt: response.data.listArti, load: false })
+        }else {
+          self.setState({ listArt: response.data.listArti})
+        }
       })
       .catch(function (error) {
         console.log(error)
@@ -36,8 +42,7 @@ class Article extends Component {
     let self = this
     socket.on('refesh', (response) => {
       if (response.data) {
-        console.log(response.message)
-        self.getListArt()
+        self.getListArt(false)
       }
     })
     return (
@@ -59,7 +64,6 @@ class Article extends Component {
           </div>
         </div>
       </main>
-
     )
   }
 }

@@ -43,7 +43,7 @@ router.post('/crArticle', loginCon.verifyToken, upload.single('image'), async (r
     let lynSta = await postController.crArticle(title, sapo, content, author, image, category) // write Post inside
     console.log(lynSta)
     if (lynSta.status === 200) {
-      config.io.emit('refesh', {data: true, message: 'chay di cac em'})
+      config.io.emit('refesh', {data: true, message: 'upgrade'})
       res.json({ status: 200 })
     }
   } catch (e) {

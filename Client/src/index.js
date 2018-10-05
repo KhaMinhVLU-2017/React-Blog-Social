@@ -85,11 +85,19 @@ class RouteApp extends Component {
                   <Route path='/' exact render={() => {
                     // let history = createHistory()
                     // history.push('/')
+                    let body = document.body.classList.contains('body-scrolled')
+                    if (body) {
+                      document.body.classList.remove('body-scrolled')
+                    }
                     return <Welcome />
                   }} />
                   <Route path='/Login' render={() => {
                     // let history = createHistory()
                     // history.push('/login')
+                    let body = document.body.classList.contains('body-scrolled')
+                    if (!body) {
+                      document.body.classList.add('body-scrolled')
+                    }
                     return <Login />
                   }} />
                   <Route path='/Logout' render={() => {
@@ -98,6 +106,10 @@ class RouteApp extends Component {
                   <Route path='/Signup' render={() => {
                     // let history = createHistory()
                     // history.push('/Login')
+                    let body = document.body.classList.contains('body-scrolled')
+                    if (!body) {
+                      document.body.classList.add('body-scrolled')
+                    }
                     return <Signup />
                   }} />
                   <Route path='/article/:idPost' render={(props) => <SingleArticle {...props} />} />

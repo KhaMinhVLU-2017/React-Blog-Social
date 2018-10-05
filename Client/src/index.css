@@ -9,8 +9,8 @@
 }
 /*Footer */
 .fix_footer {
-  background: #d2cfcf;
-  min-height: 100px;
+  background: linear-gradient(to top left, #4e555de8 , #cccccc);
+  min-height: 50px;
   position: fixed;
   left: 0;
   bottom: 0;

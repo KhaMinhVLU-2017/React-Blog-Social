@@ -3,6 +3,8 @@ import axios from 'axios'
 import SubArticle from './subArticle'
 import loadedImg from '../../images/load.gif'
 import config from '../../config'
+import openSocket from 'socket.io-client'
+const socket = openSocket(config.api.local)
 
 class Article extends Component {
   constructor (props) {
@@ -29,6 +31,13 @@ class Article extends Component {
   }
   render () {
     let listArt = this.state.listArt
+    let self = this
+    socket.on('refesh', (response) => {
+      if (response.data){
+        console.log(response.message)
+        self.getListArt()
+      }
+    })
     return (
       <main className='main-content bg-gray'>
         <div className='row'>
@@ -49,4 +58,6 @@ class Article extends Component {
     )
   }
 }
+
+
 export default Article

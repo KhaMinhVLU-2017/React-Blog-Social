@@ -8,7 +8,8 @@ var multer = require('multer')
 var fs = require('fs')
 var path = require('path')
 var FroalaEditor = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor.js')
-
+// Import file Config Socket
+var config = require('./config')
 // Get Parame from client
 var bodyParser = require('body-parser')
 router.use(bodyParser.json()) // support json encoded bodies
@@ -42,6 +43,7 @@ router.post('/crArticle', loginCon.verifyToken, upload.single('image'), async (r
     let lynSta = await postController.crArticle(title, sapo, content, author, image, category) // write Post inside
     console.log(lynSta)
     if (lynSta.status === 200) {
+      config.io.emit('refesh', {data: true, message: 'chay di cac em'})
       res.json({ status: 200 })
     }
   } catch (e) {

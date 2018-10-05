@@ -1,6 +1,7 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import config from '../../config'
+import FadeIn from 'react-lazyload-fadein'
 
 const SubArticle = (props) => {
   return (
@@ -15,7 +16,14 @@ const SubArticle = (props) => {
           </div>
         </header>
         <a href='blog-single.html'>
-          <img className='rounded' src={config.api.local + props.image} alt={props.title} />
+          <FadeIn height={600} duration={250} easing={'ease-out'}>
+            {onload => (
+              <img className='rounded' src={config.api.local + props.image} alt={props.title}
+                onLoad={onload}
+                style={{ height: 500 }}
+              />
+            )}
+          </FadeIn>
         </a>
         <div className='card-block'>
           <p className='text-justify'>{props.sapo}</p>

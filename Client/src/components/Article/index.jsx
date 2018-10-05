@@ -4,36 +4,38 @@ import SubArticle from './subArticle'
 import loadedImg from '../../images/load.gif'
 import config from '../../config'
 import openSocket from 'socket.io-client'
+import LazyLoad from 'react-lazyload'// Loaded Append Article
+
 const socket = openSocket(config.api.local)
 
 class Article extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { listArt: [], load: false }
     this.errorMeo = null
     this.getListArt = this.getListArt.bind(this)
   }
-  componentDidMount () {
+  componentDidMount() {
     this.getListArt()
   }
-  getListArt () {
+  getListArt() {
     let self = this
-    this.setState({load: true})
+    this.setState({ load: true })
     axios.get(config.api.local + '/api/Articles')
       .then(function (response) {
         clearTimeout(self.errorMeo)
-        self.setState({listArt: response.data.listArti, load: false})
+        self.setState({ listArt: response.data.listArti, load: false })
       })
       .catch(function (error) {
         console.log(error)
         self.errorMeo = setTimeout(() => self.getListArt(), 1500)
       })
   }
-  render () {
+  render() {
     let listArt = this.state.listArt
     let self = this
     socket.on('refesh', (response) => {
-      if (response.data){
+      if (response.data) {
         console.log(response.message)
         self.getListArt()
       }
@@ -42,15 +44,18 @@ class Article extends Component {
       <main className='main-content bg-gray'>
         <div className='row'>
           <div className='col-12 col-lg-6 offset-lg-3'>
-            {this.state.load ? <img className='creArti_img' src={loadedImg} alt='loaded' /> : listArt.map((item, index) => <SubArticle
-              key={index}
-              title={item.title}
-              date={item.date}
-              image={item.image}
-              author={item.author}
-              sapo={item.sapo}
-              idPost={item._id}
-            />)}
+            {this.state.load ? <img className='creArti_img' src={loadedImg} alt='loaded' /> : listArt.map((item, index) => 
+            <LazyLoad key={index} height={200} once>
+                <SubArticle
+                  key={index}
+                  title={item.title}
+                  date={item.date}
+                  image={item.image}
+                  author={item.author}
+                  sapo={item.sapo}
+                  idPost={item._id}
+                />
+            </LazyLoad>)}
           </div>
         </div>
       </main>

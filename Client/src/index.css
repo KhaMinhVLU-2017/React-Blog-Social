@@ -7,6 +7,15 @@
 .SubArti{
   text-align: center
 }
+/*Footer */
+.fix_footer {
+  background: #d2cfcf;
+  min-height: 100px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 /*Login*/
 @media (max-width: 321px){
   .lg_error {

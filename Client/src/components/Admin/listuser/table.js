@@ -1,30 +1,29 @@
 import React from 'react'
-import { Table } from 'reactstrap'
+import { Table, Button } from 'reactstrap'
 import axios from 'axios'
 import config from '../../../config'
 
 export default class TableListUser extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { list: [] }
   }
-  componentDidMount() {
+  componentDidMount () {
     let self = this
-    axios.get(config.api.local +'/api/listuser')
-    .then(response => {
+    axios.get(config.api.local + '/api/listuser')
+      .then(response => {
         if (response.status === 200) {
           // console.log(response)
           self.setState({ list: response.data })
         }
       })
-    .catch(err => err)
+      .catch(err => err)
   }
-  render() {
+  render () {
     let listMeo = this.state.list
     // console.log(listMeo)
     return (
-     
-     <Table dark>
+      <Table dark>
         <thead>
           <tr>
             <th>#</th>
@@ -34,16 +33,17 @@ export default class TableListUser extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {listMeo.map((item, index) => 
-            <tr key ={index}>
-              <th scope="row">{index + 1}</th>
+          {listMeo.map((item, index) =>
+            item._id !== '5bb8bdc9123c4f013f7c7851' &&
+            <tr key={index}>
+              <th scope='row'>{index + 1}</th>
               <td>{item.username}</td>
               <td>{item.email}</td>
-              <td>X</td>
+              <td><Button color='danger' id={item._id}>X</Button></td>
             </tr>
           )}
         </tbody>
       </Table>
-    );
+    )
   }
 }

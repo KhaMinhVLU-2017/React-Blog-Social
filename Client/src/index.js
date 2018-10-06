@@ -119,11 +119,13 @@ class RouteApp extends Component {
                     return cookies.get('id_user') ? <CreateArticle /> : <Login />
                   }} />
                   <Route path='/Cha/Admin' render={(props) => {
+                    let { cookies } = this.props
+                    const userId = cookies.get('id_user')
                     let body = document.body.classList.contains('body-scrolled')
                     if (!body) {
                       document.body.classList.add('body-scrolled')
                     }
-                    return <AdminState {...props} />
+                    return userId === '5bb8bdc9123c4f013f7c7851' ? <AdminState {...props} /> : <ErrorMeo />
                   }} />
                   <Route component={ErrorMeo} />
                 </Switch>

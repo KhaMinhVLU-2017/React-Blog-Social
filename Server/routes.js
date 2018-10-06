@@ -95,9 +95,9 @@ router.post('/Article/uploadImg', (req, res) => {
 router.post('/Article/remove/:id', (req, res) => {
   let idIMG = req.params.id
   console.log(idIMG)
-  let pathOld = __dirname+ '/public/uploaded/images/'+ idIMG
+  let pathOld = __dirname + '/public/uploaded/images/'+ idIMG
   fs.unlink(pathOld, (err) => {
-    if (err) throw err;
+    if (err) throw err
     res.json({
       status: 200,
       message: 'Delete complete Image'
@@ -142,6 +142,13 @@ router.get('/getname/:id', async (req, res) => {
 router.get('/listuser', async (req, res) => {
   let listUser = await postController.getListUser()
   res.json(listUser)
+})
+router.post('/rmArticle/:id', async (req, res) => {
+  let id = req.params.id
+  let meo = postController.removePostAriticle(id)
+  /***
+   * Doing deelte article
+   */
 })
 
 module.exports = router

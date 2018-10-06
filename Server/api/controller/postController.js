@@ -70,5 +70,13 @@ module.exports = {
   getListUser: async () => {
     let getListUser = await User.find()
     return getListUser
+  },
+  removePostAriticle: async (idPost) => {
+    let arti = await Article.findOne({_id: idPost})
+    let spo = arti.content.split('<img>')
+    console.log(spo)
+    /**
+     * Doing error
+     */
   }
 }

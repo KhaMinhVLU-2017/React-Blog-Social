@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'reactstrap'
+import { Table, Button } from 'reactstrap'
 import axios from 'axios'
 import config from '../../../config'
 
@@ -11,20 +11,20 @@ export default class TableListArt extends React.Component {
   componentDidMount() {
     let self = this
     axios.get(config.api.local + '/api/Articles')
-    .then(response => {
+      .then(response => {
         if (response.status === 200) {
           // console.log(response)
           self.setState({ list: response.data.listArti })
         }
       })
-    .catch(err => err)
+      .catch(err => err)
   }
   render() {
     let listMeo = this.state.list
     // console.log(listMeo)
     return (
-     
-     <Table dark>
+
+      <Table dark>
         <thead>
           <tr>
             <th>#</th>
@@ -35,18 +35,17 @@ export default class TableListArt extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {listMeo.map((item, index) => 
-            <tr key ={index}>
-              <th scope="row">{index + 1}</th>
+          {listMeo.map((item, index) =>
+            <tr key={index}>
+              <th scope='row'>{index + 1}</th>
               <td>{item.title}</td>
-              
               <td>{item.date}</td>
               <td>{item.author}</td>
-              <td>X</td>
+              <td><Button id={item._id}>X</Button></td>
             </tr>
           )}
         </tbody>
       </Table>
-    );
+    )
   }
 }

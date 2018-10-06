@@ -26,6 +26,14 @@ class Navbar extends Component {
     cookies.remove('__Token')
     cookies.remove('avatarLink')
   }
+  logOutDestroyCookie () {
+    this.props.actions.logoutA()
+    let { cookies } = this.props
+    let self = this
+    // console.log(cookies)
+    // store.dispatch(todoAction.logoutA())
+    this.destroyCookie(cookies).then(() => self.reloadPage())
+  }
   render () {
     // console.log(this.props.username)
     return (
@@ -53,15 +61,7 @@ class Navbar extends Component {
                   </Link>
                   <div className='nav-submenu'>
                     <Link className='nav-link' to='/'>My articles</Link>
-                    <Link onClick={async () => {
-                      this.props.actions.logoutA()
-                      let { cookies } = this.props
-                      // console.log(cookies)
-                      // store.dispatch(todoAction.logoutA())
-                      await this.destroyCookie(cookies)
-                      this.reloadPage()
-                    }
-                    } className='nav-link' to='/Logout'>Logout</Link>
+                    <Link onClick={this.logOutDestroyCookie.bind(this)} className='nav-link' to='/Logout'>Logout</Link>
                   </div>
                 </li> :
                 <Fragment>

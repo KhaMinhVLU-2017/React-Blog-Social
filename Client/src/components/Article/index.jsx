@@ -9,27 +9,27 @@ import LazyLoad from 'react-lazyload'// Loaded Append Article
 const socket = openSocket(config.api.local)
 
 class Article extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { listArt: [], load: false }
     this.errorMeo = null
     this.getListArt = this.getListArt.bind(this)
   }
-  componentDidMount() {
+  componentDidMount () {
     this.getListArt(true)
   }
-  getListArt(check) {
+  getListArt (check) {
     let self = this
-    if(check){
+    if (check) {
       this.setState({ load: true })
     }
     axios.get(config.api.local + '/api/Articles')
       .then(function (response) {
         clearTimeout(self.errorMeo)
-        if(check){
+        if (check) {
           self.setState({ listArt: response.data.listArti, load: false })
-        }else {
-          self.setState({ listArt: response.data.listArti})
+        } else {
+          self.setState({listArt: response.data.listArti})
         }
       })
       .catch(function (error) {
@@ -37,7 +37,7 @@ class Article extends Component {
         self.errorMeo = setTimeout(() => self.getListArt(), 1500)
       })
   }
-  render() {
+  render () {
     let listArt = this.state.listArt
     let self = this
     socket.on('refesh', (response) => {
@@ -46,11 +46,11 @@ class Article extends Component {
       }
     })
     return (
-      <main className='main-content bg-gray'>
+      <main className='main-content bg-gray' style={{marginBottom: 150}}>
         <div className='row'>
           <div className='col-12 col-lg-6 offset-lg-3'>
             {this.state.load ? <img className='creArti_img' src={loadedImg} alt='loaded' /> : listArt.map((item, index) => 
-            <LazyLoad key={index} height={200} once>
+              <LazyLoad key={index} height={200} once>
                 <SubArticle
                   key={index}
                   title={item.title}
@@ -60,13 +60,12 @@ class Article extends Component {
                   sapo={item.sapo}
                   idPost={item._id}
                 />
-            </LazyLoad>)}
+              </LazyLoad>)}
           </div>
         </div>
       </main>
     )
   }
 }
-
 
 export default Article

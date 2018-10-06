@@ -20,8 +20,11 @@ module.exports = {
     return { status: 200 }
   },
   listArticle: async () => { // many error
-    let getList = await Article.find({}).sort({ date: 'desc' })
-    let getListUser = await User.find()
+    let getListRef = Article.find({}).sort({ date: 'desc' })
+    let getListUserRef = User.find()
+    const values = await Promise.all([getListRef, getListUserRef])
+    const getList = values[0]
+    const getListUser = values[1]
 
     let ListUser = {} // Push inside List with Primary Key
     for (let item of getListUser) {

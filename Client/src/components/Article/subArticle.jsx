@@ -15,7 +15,7 @@ const SubArticle = (props) => {
             <a href='note'>{props.author} </a>,&ensp; <time>{props.date}</time>
           </div>
         </header>
-        <a href='blog-single.html'>
+        <Link to={'/article/' + props.idPost}>
           <FadeIn height={600} duration={250} easing={'ease-out'}>
             {onload => (
               <img className='rounded' src={config.api.local + props.image} alt={props.title}
@@ -24,7 +24,7 @@ const SubArticle = (props) => {
               />
             )}
           </FadeIn>
-        </a>
+        </Link>
         <div className='card-block'>
           <p className='text-justify'>{props.sapo}</p>
           <p className='text-center mt-40'>

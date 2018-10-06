@@ -52,7 +52,6 @@ let store
 io.connect(config.api.local)
 
 class RouteApp extends Component {
-
   componentWillMount () {
     let { cookies } = this.props
     // console.log(cookies.get('__Token'))
@@ -119,7 +118,13 @@ class RouteApp extends Component {
                     history.push('/articles/create', { initialState })
                     return cookies.get('id_user') ? <CreateArticle /> : <Login />
                   }} />
-                  <Route path='/Cha/Admin' component={AdminState} />
+                  <Route path='/Cha/Admin' render={(props) => {
+                    let body = document.body.classList.contains('body-scrolled')
+                    if (!body) {
+                      document.body.classList.add('body-scrolled')
+                    }
+                    return <AdminState {...props} />
+                  }} />
                   <Route component={ErrorMeo} />
                 </Switch>
                 <Footer />

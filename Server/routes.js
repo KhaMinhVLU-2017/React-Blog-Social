@@ -50,12 +50,14 @@ router.post('/crArticle', loginCon.verifyToken, upload.single('image'), async (r
     res.json({ status: 403, token: 'Not definded', message: 'Create Article Faile' })
   }
 })
-router.get('/Articles', async (req, res) => {
-  let listArti = await postController.listArticle()
-  res.json({
-    message: 'Complete',
-    status: 200,
-    listArti
+router.get('/Articles', (req, res) => {
+  // let listArti =
+  postController.listArticle().then(listArti => {
+    res.json({
+      message: 'Complete',
+      status: 200,
+      listArti
+    })
   })
 })
 // get Detail Article

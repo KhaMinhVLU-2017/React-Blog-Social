@@ -25,6 +25,7 @@ class CreateArticle extends Component {
       load: false,
       sapo: null
     }
+    this.arrImageEditor = []
     this.arrImgup = []
     this.getCategorys = this.getCategorys.bind(this)
     this.handerSubmit = this.handerSubmit.bind(this)
@@ -76,6 +77,7 @@ class CreateArticle extends Component {
     fd.append('author', cookies.get('id_user'))
     fd.append('category', this.state.category)
     fd.append('image', this.state.image)
+    fd.append('imageEditor', this.arrImageEditor)
     // Post Axios
     axios.defaults.headers.common['authorization'] = 'bearer ' + ck_Token
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -96,12 +98,13 @@ class CreateArticle extends Component {
       })
   }
   handleModelChange (ct) {
-    console.log(ct)
+    // console.log(ct)
     let text = ct.toString()
     this.setState({content: text})
   }
   // Config images Rich Text
   handlerNameImgRT(respon){
+    this.arrImageEditor.push(respon)
     let path = config.api.local + respon
     // console.log(respon)
     this.arrImgup.push(path)
@@ -184,6 +187,9 @@ class CreateArticle extends Component {
                           },
                           'froalaEditor.image.removed': (e, editor, $img) => {
                             let idParam =  $img[0].dataset.id
+                            let versus = '/uploaded/images/' + idParam
+                            this.arrImageEditor = this.arrImageEditor.filter(item => item !== versus)
+                            console.log(this.arrImageEditor)
                             axios.post(config.api.local + '/api/Article/remove/' + idParam).then(
                               response => {
                                 /**

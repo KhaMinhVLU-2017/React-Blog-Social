@@ -2,11 +2,11 @@ const postController = require('./api/controller/postController')
 const loginCon = require('./api/controller/loginController')
 const express = require('express')
 const router = express.Router()
-var jwt = require('jsonwebtoken')
+// var jwt = require('jsonwebtoken')
 // Get Multer Images
 var multer = require('multer')
 var fs = require('fs')
-var path = require('path')
+// var path = require('path')
 var FroalaEditor = require('./node_modules/wysiwyg-editor-node-sdk/lib/froalaEditor.js')
 // Import file Config Socket
 var config = require('./config')
@@ -39,8 +39,8 @@ router.post('/crArticle', loginCon.verifyToken, upload.single('image'), async (r
     let sapo = req.body.sapo
     let content = req.body.content
     let image = '/images/' + req.file.filename
-
-    let lynSta = await postController.crArticle(title, sapo, content, author, image, category) // write Post inside
+    let imageEditor = req.body.imageEditor
+    let lynSta = await postController.crArticle(title, sapo, content, author, image, imageEditor, category) // write Post inside
     console.log(lynSta)
     if (lynSta.status === 200) {
       config.io.emit('refesh', {data: true, message: 'upgrade'})
@@ -95,7 +95,7 @@ router.post('/Article/uploadImg', (req, res) => {
 router.post('/Article/remove/:id', (req, res) => {
   let idIMG = req.params.id
   console.log(idIMG)
-  let pathOld = __dirname + '/public/uploaded/images/'+ idIMG
+  let pathOld = __dirname + '/public/uploaded/images/' + idIMG
   fs.unlink(pathOld, (err) => {
     if (err) throw err
     res.json({
@@ -145,10 +145,8 @@ router.get('/listuser', async (req, res) => {
 })
 router.post('/rmArticle/:id', async (req, res) => {
   let id = req.params.id
-  let meo = postController.removePostAriticle(id)
-  /***
-   * Doing deelte article
-   */
+  let rmArt =await postController.removePostAriticle(id)
+  res.json(rmArt)
 })
 
 module.exports = router

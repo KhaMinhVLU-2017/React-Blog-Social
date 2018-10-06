@@ -4,11 +4,11 @@ import axios from 'axios'
 import config from '../../../config'
 
 export default class TableListArt extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { list: [] }
   }
-  componentDidMount() {
+  componentDidMount () {
     let self = this
     axios.get(config.api.local + '/api/Articles')
       .then(response => {
@@ -19,7 +19,7 @@ export default class TableListArt extends React.Component {
       })
       .catch(err => err)
   }
-  render() {
+  render () {
     let listMeo = this.state.list
     // console.log(listMeo)
     return (
@@ -49,3 +49,6 @@ export default class TableListArt extends React.Component {
     )
   }
 }
+/**
+ * Doing post API remove
+ */

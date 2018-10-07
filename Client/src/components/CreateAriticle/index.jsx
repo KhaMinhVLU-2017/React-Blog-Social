@@ -151,8 +151,8 @@ class CreateArticle extends Component {
                         model = {this.state.content}
                         onModelChange={this.handleModelChange}
                         config= {{ placeholderText: 'Edit Your Content Here!',
-                        // imageUploadParam: 'imgEdtor',
- 
+                        // Allow method insert video not upload
+                        videoInsertButtons: ['videoBack', '|', 'videoByURL', 'videoEmbed'],
                         // Set the image upload URL.
                         imageUploadURL: config.api.local + '/api/Article/uploadImg',
                  

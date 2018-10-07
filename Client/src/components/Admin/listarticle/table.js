@@ -8,7 +8,7 @@ import loading from '../../../images/load2.gif'
 class TableListArt extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { list: [], loading: false }
+    this.state = { list: [], loading: false, mainHander: true }
     this.handerRmAri = this.handerRmAri.bind(this)
     this.crawApi = this.crawApi.bind(this)
   }
@@ -21,7 +21,7 @@ class TableListArt extends React.Component {
       .then(response => {
         if (response.status === 200) {
           // console.log(response)
-          self.setState({ list: response.data.listArti, loading: false })
+          self.setState({ list: response.data.listArti, loading: false, mainHander: true })
         }
       })
       .catch(err => err)
@@ -29,7 +29,7 @@ class TableListArt extends React.Component {
   handerRmAri (e) {
     let id = e.target.id
     let self = this
-    this.setState({ loading: true, idLoad: id })
+    this.setState({ loading: true, idLoad: id, mainHander: false })
     const { cookies } = this.props
     const __Token = cookies.get('__Token')// get Token
     // Post Axios
@@ -49,7 +49,12 @@ class TableListArt extends React.Component {
   }
   render () {
     let listMeo = this.state.list
-    // console.log(listMeo)
+    let self = this
+    config.socket.on('refesh', (response) => {
+      if (response.data && this.state.mainHander) {
+        self.crawApi()
+      }
+    })
     return (
 
       <Table dark>

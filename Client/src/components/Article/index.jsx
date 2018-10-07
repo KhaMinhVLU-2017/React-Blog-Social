@@ -3,10 +3,7 @@ import axios from 'axios'
 import SubArticle from './subArticle'
 import loadedImg from '../../images/load.gif'
 import config from '../../config'
-import openSocket from 'socket.io-client'
 import LazyLoad from 'react-lazyload'// Loaded Append Article
-
-const socket = openSocket(config.api.local)
 
 class Article extends Component {
   constructor (props) {
@@ -40,7 +37,7 @@ class Article extends Component {
   render () {
     let listArt = this.state.listArt
     let self = this
-    socket.on('refesh', (response) => {
+    config.socket.on('refesh', (response) => {
       if (response.data) {
         self.getListArt(false)
       }

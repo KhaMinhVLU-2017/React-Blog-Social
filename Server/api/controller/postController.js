@@ -82,9 +82,6 @@ module.exports = {
     if (arti !== null) {
       let imagesEditor = arti.imagesEditor
       let imagemain = arti.image
-      console.log(imagemain.length)
-      console.log(imagesEditor)
-      console.log(imagesEditor.length)
       let path = __dirname.slice(0, -15)
       let pImgMain = path + '/public' + imagemain
       /**
@@ -107,7 +104,7 @@ module.exports = {
         return { status: 500, message: 'Delete Images was Faile' }
       }
       try {
-        let artDe = await Article.deleteOne({ _id: idPost })
+        await Article.deleteOne({ _id: idPost })
         return {
           status: 200,
           message: 'Todo successfully deleted'

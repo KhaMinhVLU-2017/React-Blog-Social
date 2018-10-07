@@ -31,7 +31,7 @@ class ListUser extends Component {
   render () {
     return (
       <Col md={12}>
-        <h3>List User</h3>
+        <h3 className='TitleAdmin'>List User</h3>
         <TableListUser />
       </Col>
     )
@@ -40,7 +40,7 @@ class ListUser extends Component {
 const ListArticle = () => {
   return (
     <Col md={12}>
-      <h3>List Article</h3>
+      <h3 className='TitleAdmin'>List Article</h3>
       <TableListArt />
     </Col>
   )

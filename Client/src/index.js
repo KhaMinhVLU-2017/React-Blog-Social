@@ -27,10 +27,7 @@ import 'font-awesome/css/font-awesome.css'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducer from './reducers/index'
-/**
- * SocketIO
- */
-import io from 'socket.io-client'
+
 /**
  * Https
  */
@@ -38,7 +35,6 @@ import HttpsRedirect from 'react-https-redirect'
 /**
  * Font-awesome
  */
-import config from './config'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 library.add(faStroopwafel)
@@ -49,7 +45,6 @@ library.add(faStroopwafel)
 
 let initialState = {}
 let store
-io.connect(config.api.local)
 
 class RouteApp extends Component {
   componentWillMount () {

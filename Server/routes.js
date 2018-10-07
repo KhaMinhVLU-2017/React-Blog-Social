@@ -147,6 +147,7 @@ router.get('/listuser', async (req, res) => {
 router.post('/rmArticle', loginCon.verifyToken, async (req, res) => {
   let id = req.body.id
   let rmArt = await postController.removePostAriticle(id, res)
+  config.io.emit('refesh', {data: true, message: 'upgrade'})
   console.log(rmArt)
   res.json(rmArt)
 })

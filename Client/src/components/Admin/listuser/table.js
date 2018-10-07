@@ -21,7 +21,6 @@ export default class TableListUser extends React.Component {
   }
   render () {
     let listMeo = this.state.list
-    // console.log(listMeo)
     return (
       <Table dark>
         <thead>

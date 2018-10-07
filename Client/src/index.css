@@ -16,6 +16,12 @@
   bottom: 0;
   width: 100%;
 }
+/** Title Admin ***/
+.TitleAdmin {
+  font-family: initial;
+  font-weight: bold;
+  color: white;
+}
 /*Login*/
 @media (max-width: 321px){
   .lg_error {

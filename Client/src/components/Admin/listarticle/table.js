@@ -2,22 +2,50 @@ import React from 'react'
 import { Table, Button } from 'reactstrap'
 import axios from 'axios'
 import config from '../../../config'
+import { withCookies } from 'react-cookie'
+import loading from '../../../images/load2.gif'
 
-export default class TableListArt extends React.Component {
+class TableListArt extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { list: [] }
+    this.state = { list: [], loading: false }
+    this.handerRmAri = this.handerRmAri.bind(this)
+    this.crawApi = this.crawApi.bind(this)
   }
   componentDidMount () {
+    this.crawApi()
+  }
+  crawApi () {
     let self = this
     axios.get(config.api.local + '/api/Articles')
       .then(response => {
         if (response.status === 200) {
           // console.log(response)
-          self.setState({ list: response.data.listArti })
+          self.setState({ list: response.data.listArti, loading: false })
         }
       })
       .catch(err => err)
+  }
+  handerRmAri (e) {
+    let id = e.target.id
+    let self = this
+    this.setState({ loading: true, idLoad: id })
+    const { cookies } = this.props
+    const __Token = cookies.get('__Token')// get Token
+    // Post Axios
+    axios.defaults.headers.common['authorization'] = 'bearer ' + __Token
+    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+    axios.post(config.api.local + '/api/rmArticle', { id })
+      .then(response => {
+        if (response.data.status === 200) {
+          self.crawApi()
+        } else {
+
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
   render () {
     let listMeo = this.state.list
@@ -34,14 +62,14 @@ export default class TableListArt extends React.Component {
             <th>Edit</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id='cttable'>
           {listMeo.map((item, index) =>
-            <tr key={index}>
+            <tr id={'tr' + item._id} key={index}>
               <th scope='row'>{index + 1}</th>
               <td>{item.title}</td>
               <td>{item.date}</td>
               <td>{item.author}</td>
-              <td><Button id={item._id}>X</Button></td>
+              <td>{this.state.loading && item._id === this.state.idLoad ? <img style={{width: 50}} className='img-responsive' src={loading} alt='loaded' /> : <Button color='danger' onClick={this.handerRmAri} id={item._id}>X</Button>}</td>
             </tr>
           )}
         </tbody>
@@ -49,6 +77,5 @@ export default class TableListArt extends React.Component {
     )
   }
 }
-/**
- * Doing post API remove
- */
+
+export default withCookies(TableListArt)

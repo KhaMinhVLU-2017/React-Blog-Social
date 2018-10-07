@@ -35,3 +35,21 @@
   position: absolute;
   filter: blur(5px);
 }
+/*** Responsive Admin ***/
+@media (max-width: 420px){
+  .adminSub {
+    padding: 0 !important;
+    margin-bottom: 215px;
+  }
+  .adminSub > div {
+    padding: 0;
+  }
+  .rootAdmin {
+    width: 110% !important;
+  }
+}
+@media (max-width: 321px) {
+  .rootAdmin {
+    width: 410px !important;
+  }
+}

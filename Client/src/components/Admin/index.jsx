@@ -7,7 +7,7 @@ import TableListArt from './listarticle/table'
 class AdminState extends Component {
   render () {
     return (
-      <Container className='mt-90 ' fluid>
+      <Container className='mt-90 rootAdmin' fluid>
         <Row>
           <div className='mainAdmin'>
           </div>
@@ -17,7 +17,7 @@ class AdminState extends Component {
               <ListGroupItem color='primary'><Link to={this.props.match.url + '/listarticle'}>List Article</Link></ListGroupItem>
             </ListGroup>
           </Col>
-          <Col md={9}>
+          <Col md={9} className='adminSub'>
             <Route path={this.props.match.url + '/listuser'} component={ListUser} />
             <Route path={this.props.match.url + '/listarticle'} component={ListArticle} />
           </Col>

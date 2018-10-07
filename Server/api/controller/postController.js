@@ -16,9 +16,9 @@ module.exports = {
     increArt.image = image
     increArt.imagesEditor = imageEditor.split(',')
     increArt.category = category
-    console.log(increArt)
+    // console.log(increArt)
     increArt.save()
-    // console.log('Save Complete Article: ' + increArt)
+    console.log('The Article\'s create complete ')
     return { status: 200 }
   },
   listArticle: async () => { // many error
@@ -78,37 +78,45 @@ module.exports = {
      * Config Path and Get Data
      */
     let arti = await Article.findOne({ _id: idPost })
-    console.log(arti)
+    // console.log(arti)
     if (arti !== null) {
       let imagesEditor = arti.imagesEditor
       let imagemain = arti.image
+      console.log(imagemain.length)
+      console.log(imagesEditor)
+      console.log(imagesEditor.length)
       let path = __dirname.slice(0, -15)
       let pImgMain = path + '/public' + imagemain
       /**
        * Remove Files
        */
-      if (imagemain.length > 0) {
-        await fs.unlink(pImgMain, (err) => {
-          if (err) {
-            console.log('Delete is Faile: ' + err)
-          }
-        })
-      }
-      if (imagesEditor.length > 0) {
-        imagesEditor.map(item => {
-          fs.unlinkSync(path + '/public' + item)
-        })
-      }
-      return Article.deleteOne({ _id: idPost }, (err, res) => {
-        if (err) return err
-        const response = {
-          status: 200,
-          message: 'Todo successfully deleted',
-          id: res._id
+      try {
+        if (imagemain.length > 0) {
+          fs.unlink(pImgMain, (err) => {
+            if (err) {
+              console.log(err)
+            }
+          })
         }
-        return { response }
-      })
+        if (imagesEditor.length > 1) {
+          imagesEditor.map(item => {
+            fs.unlinkSync(path + '/public' + item)
+          })
+        }
+      } catch (e) {
+        return { status: 500, message: 'Delete Images was Faile' }
+      }
+      try {
+        let artDe = await Article.deleteOne({ _id: idPost })
+        return {
+          status: 200,
+          message: 'Todo successfully deleted'
+        }
+      } catch (e) {
+        return { status: 500, message: 'Delete was faile' }
+      }
+    } else {
+      return { status: 404, message: 'Not Found id' }
     }
-    return { status: 404, message: 'Not Found id' }
   }
 }

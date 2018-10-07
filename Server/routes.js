@@ -41,7 +41,7 @@ router.post('/crArticle', loginCon.verifyToken, upload.single('image'), async (r
     let image = '/images/' + req.file.filename
     let imageEditor = req.body.imageEditor
     let lynSta = await postController.crArticle(title, sapo, content, author, image, imageEditor, category) // write Post inside
-    console.log(lynSta)
+    // console.log(lynSta)
     if (lynSta.status === 200) {
       config.io.emit('refesh', {data: true, message: 'upgrade'})
       res.json({ status: 200 })
@@ -87,7 +87,7 @@ router.post('/Article/uploadImg', (req, res) => {
       console.log(err)
       return res.send(JSON.stringify(err))
     }
-    console.log(link)
+    // console.log(link)
     res.send(link)
   })
 })
@@ -143,9 +143,11 @@ router.get('/listuser', async (req, res) => {
   let listUser = await postController.getListUser()
   res.json(listUser)
 })
-router.post('/rmArticle/:id', async (req, res) => {
-  let id = req.params.id
-  let rmArt =await postController.removePostAriticle(id)
+// Remove Article and Images || Editor
+router.post('/rmArticle', loginCon.verifyToken, async (req, res) => {
+  let id = req.body.id
+  let rmArt = await postController.removePostAriticle(id, res)
+  console.log(rmArt)
   res.json(rmArt)
 })
 
